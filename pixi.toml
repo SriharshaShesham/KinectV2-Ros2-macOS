@@ -1,0 +1,48 @@
+[workspace]
+name = "kinectv2"
+description = "Kinect v2 on macOS with ROS 2 (libfreenect2 driver, mic array, point cloud, hotplug)"
+channels = ["https://prefix.dev/conda-forge", "conda-forge"]
+platforms = ["linux-64", "win-64", "osx-64", "osx-arm64", "linux-aarch64"]
+
+# Activating the env also sources the built workspace (after the first build).
+[target.unix.activation]
+scripts = ["install/setup.sh"]
+
+[dependencies]
+python = "*"
+compilers = "*"
+cmake = ">=4.2.1,<5"
+pkg-config = "*"
+make = "*"
+ninja = ">=1.13.2,<2"
+colcon-common-extensions = "*"
+opencv = ">=4.12.0,<5"
+numpy = "*"
+matplotlib = "*"
+pytest = "*"
+
+[environments]
+kilted = { features = ["kilted"] }
+
+[feature.kilted]
+channels = ["https://prefix.dev/robostack-kilted"]
+
+[feature.kilted.dependencies]
+ros-kilted-desktop = "*"
+python-sounddevice = ">=0.5.5,<0.6"
+aiohttp = ">=3.13,<4"          # kinect_console web server
+
+# libfreenect2 is not on conda-forge for macOS arm64: it is built from source
+# into /usr/local (scripts/install_libfreenect2.sh) and found via PKG_CONFIG_PATH.
+[feature.kilted.activation.env]
+PKG_CONFIG_PATH = "/usr/local/lib/pkgconfig:/opt/homebrew/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+[feature.kilted.tasks]
+build = "colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPython_FIND_VIRTUALENV=ONLY -DPython3_FIND_VIRTUALENV=ONLY"
+# publishers (driver + mic array + point cloud)
+kinect = "bash -c 'source install/setup.bash && ros2 launch kinect kinect.launch.py'"
+# a subscriber: web console on http://127.0.0.1:8095
+console = "bash -c 'source install/setup.bash && ros2 run kinect_console console'"
+scan = "python3 hotplug/kinect_hotplug.py --scan"
+test = "pytest -q tests"
+test-live = "bash -c 'source install/setup.bash && KINECT_LIVE=1 pytest -v tests/live'"

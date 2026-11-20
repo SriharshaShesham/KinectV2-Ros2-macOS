@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kinect v2 Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/app.css?v=2">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="8" width="24" height="10" rx="3"/><circle cx="9" cy="13" r="2.4"/><circle cx="19" cy="13" r="2.4"/><path d="M10 18v4h8v-4"/></svg>
+    <span>KINECT V2 CONSOLE</span>
+  </div>
+  <nav class="screens" aria-label="Screens">
+    <a href="#cameras" data-screen="cameras">CAMERAS</a>
+    <a href="#mics" data-screen="mics">MIC ARRAY</a>
+  </nav>
+  <div class="spacer"></div>
+  <div class="pills">
+    <span class="pill" id="usb-pill"><i class="dot"></i><span id="usb-text">CHECKING USB…</span></span>
+    <span class="pill" id="serial-pill">SERIAL —</span>
+    <span class="pill" id="clients-pill">— VIEWERS</span>
+  </div>
+</header>
+
+<main class="screen" id="screen-cameras">
+  <section class="primary">
+    <div class="segmented" role="group" aria-label="Camera stream">
+      <button type="button" data-src="color" aria-pressed="true">COLOR</button>
+      <button type="button" data-src="ir" aria-pressed="false">IR</button>
+      <button type="button" data-src="depth" aria-pressed="false">DEPTH</button>
+      <button type="button" data-src="registered" aria-pressed="false">REGISTERED</button>
+      <button type="button" data-src="aligned" aria-pressed="false">ALIGNED DEPTH</button>
+    </div>
+    <div class="viewport" id="viewport">
+      <img id="live" alt="Live Kinect stream">
+      <div class="placeholder" id="placeholder">WAITING FOR FRAMES…</div>
+      <div class="badges">
+        <span class="badge live" id="live-badge">● CONNECTING</span>
+        <span class="badge" id="topic-badge">/kinect/rgb/compressed</span>
+      </div>
+      <span class="badge fps" id="fps-badge">— FPS</span>
+      <div class="legend" id="legend" hidden>
+        <span>0.5 m</span><div class="ramp"></div><span>4.5 m</span><span class="faint">BLACK = NO READING</span>
+      </div>
+    </div>
+    <p class="hint" id="click-hint">Click a depth view to read the distance at that point.</p>
+  </section>
+  <aside class="side">
+    <div class="card">
+      <h2>STREAM</h2>
+      <dl>
+        <dt>Resolution</dt><dd id="s-res">—</dd>
+        <dt>Encoding</dt><dd id="s-enc">—</dd>
+        <dt>Rate</dt><dd id="s-fps">—</dd>
+        <dt>Frame</dt><dd id="s-frame">—</dd>
+      </dl>
+      <p class="about" id="s-about"></p>
+    </div>
+    <div class="card">
+      <h2>DISTANCE</h2>
+      <div class="big"><span id="dist-value">—</span><span class="dim" id="dist-where">click a depth view</span></div>
+    </div>
+    <div class="card">
+      <h2>VIEWERS PER STREAM</h2>
+      <dl id="viewer-list"></dl>
+    </div>
+  </aside>
+</main>
+
+<main class="screen" id="screen-mics" hidden>
+  <section class="primary">
+    <div class="card fan-card">
+      <div class="row">
+        <h2>DIRECTION OF ARRIVAL</h2>
+        <div class="spacer"></div>
+        <span class="doa-value" id="doa-value">—</span>
+        <span class="dim" id="doa-side">waiting for sound</span>
+      </div>
+      <canvas id="fan" aria-label="Sound direction fan"></canvas>
+      <p class="hint">Left/right may be mirrored: it depends on the estimator and on whether you stand behind the Kinect or face it. Clap on one side; if the needle goes the other way, press FLIP L/R. A line array hears front and back alike.</p>
+    </div>
+    <div class="card">
+      <h2>LAST 10 SECONDS</h2>
+      <div class="history" id="history"></div>
+    </div>
+  </section>
+  <aside class="side">
+    <div class="card">
+      <h2>CHANNELS</h2>
+      <div class="meters" id="meters"></div>
+    </div>
+    <div class="card">
+      <h2>ESTIMATOR</h2>
+      <div class="segmented" role="group" aria-label="DOA method">
+        <button type="button" data-method="srp" aria-pressed="true">SRP-PHAT</button>
+        <button type="button" data-method="gcc" aria-pressed="false">GCC-PHAT</button>
+      </div>
+      <div class="segmented">
+        <button type="button" id="flip-btn" aria-pressed="false">FLIP L/R</button>
+      </div>
+      <dl>
+        <dt>Status</dt><dd id="mic-status">—</dd>
+        <dt>Mic span</dt><dd>0.226 m</dd>
+        <dt>Topics</dt><dd>/kinect/audio/raw, /kinect/audio/doa</dd>
+      </dl>
+      <p class="about" id="method-about">All 6 mic pairs, 300–5000 Hz, 2° grid. Steady: the default.</p>
+    </div>
+  </aside>
+</main>
+<script type="module" src="/static/app.js?v=2"></script>
+</body>
+</html>

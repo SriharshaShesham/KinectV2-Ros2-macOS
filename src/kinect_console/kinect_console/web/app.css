@@ -1,0 +1,93 @@
+/* Kinect v2 Console. Look: dark ground, one cyan accent, Chakra Petch for
+   headings, IBM Plex Mono for data. */
+:root {
+  --bg: #0a0e13; --panel: #10161e; --panel2: #0d1219;
+  --border: #1e2b3a; --border-strong: #29455c;
+  --text: #e6edf3; --dim: #8ba0b5; --faint: #5c7590;
+  --cyan: #4fd8eb; --cyan-soft: #7ee7f4; --cyan-btn: #bfe9f2;
+  --amber: #f0b429; --red: #e5484d; --green: #46c78a;
+  --display: 'Chakra Petch', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 13px var(--mono); min-height: 100vh; }
+:focus-visible { outline: 2px solid var(--cyan-soft); outline-offset: 2px; }
+.spacer { flex-grow: 1; }
+.dim { color: var(--dim); }
+.faint { color: var(--faint); }
+h2 { margin: 0 0 12px; font: 600 13px var(--display); letter-spacing: .16em; color: var(--dim); }
+
+.top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 14px 24px;
+  border-bottom: 1px solid var(--border); background: var(--panel2); }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--cyan);
+  font: 700 18px var(--display); letter-spacing: .14em; }
+.brand span { color: var(--text); }
+.screens { display: flex; gap: 6px; }
+.screens a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 8px;
+  border: 1px solid var(--border); color: var(--dim); font: 600 13px var(--display); letter-spacing: .12em; text-decoration: none; }
+.screens a:hover { color: var(--cyan-soft); }
+.screens a[aria-current="page"] { background: #12303a; border-color: var(--border-strong); color: var(--cyan-soft); }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; letter-spacing: .1em; color: var(--dim); }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; }
+.pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+.pill.ok { color: var(--green); border-color: #1e4a3a; } .pill.ok .dot { background: var(--green); }
+.pill.warn { color: var(--amber); border-color: #4a3a1e; } .pill.warn .dot { background: var(--amber); }
+.pill.bad { color: var(--red); border-color: #4a1e22; } .pill.bad .dot { background: var(--red); }
+
+.screen { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px 24px; }
+.primary { flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.side { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.card { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 16px 18px; }
+.row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+.row h2 { margin: 0; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); row-gap: 10px; column-gap: 12px; font-size: 12px; }
+dt { color: var(--faint); } dd { margin: 0; overflow-wrap: anywhere; }
+.about, .hint { margin: 12px 0 0; font-size: 11px; line-height: 1.6; color: var(--dim); }
+.hint { margin: 0; color: var(--faint); letter-spacing: .06em; }
+.big { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.big #dist-value, .doa-value { font: 600 36px var(--display); color: var(--cyan-soft); }
+
+.segmented { display: flex; flex-wrap: wrap; gap: 8px; }
+.segmented button { flex: 0 1 auto; min-height: 44px; padding: 0 18px; border-radius: 8px; cursor: pointer;
+  background: var(--panel); color: var(--dim); border: 1px solid var(--border);
+  font: 600 13px var(--display); letter-spacing: .12em; }
+.segmented button:hover { color: var(--cyan-soft); border-color: var(--border-strong); }
+.segmented button[aria-pressed="true"] { background: var(--cyan-btn); color: var(--bg); border-color: var(--cyan-btn); }
+.side .segmented { margin-bottom: 14px; } .side .segmented button { flex: 1 1 0; }
+
+.viewport { position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--border-strong); border-radius: 12px;
+  overflow: hidden; background: #111a22; }
+.viewport img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: crosshair; }
+.placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: var(--faint); letter-spacing: .14em; font-size: 12px; }
+.badges { position: absolute; top: 12px; left: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { padding: 5px 10px; border-radius: 6px; background: rgba(10,14,19,.82); border: 1px solid var(--border-strong);
+  font-size: 11px; letter-spacing: .1em; }
+.badge.live { color: var(--amber); } .badge.live.on { color: var(--green); border-color: #1e4a3a; }
+.badge.fps { position: absolute; top: 12px; right: 12px; color: var(--cyan-soft); }
+.legend { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 8px; background: rgba(10,14,19,.85); border: 1px solid var(--border-strong);
+  font-size: 11px; color: var(--dim); }
+.legend .ramp { flex-grow: 1; height: 10px; border-radius: 5px;
+  background: linear-gradient(90deg, #7a0403, #f1621b, #e5d23a, #5ef05b, #2fb2f2, #30123b); }
+.marker { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 2px solid var(--cyan-soft);
+  border-radius: 50%; pointer-events: none; }
+
+.fan-card canvas { display: block; width: 100%; height: 340px; margin-top: 8px; }
+.history { display: flex; align-items: flex-end; gap: 3px; height: 64px; }
+.history i { flex: 1 1 0; border-radius: 2px; background: var(--border); height: 4px; }
+.meters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.meter { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; }
+.meter .bar { position: relative; width: 28px; height: 180px; border-radius: 6px; background: var(--bg);
+  border: 1px solid var(--border); overflow: hidden; }
+.meter .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+  background: linear-gradient(0deg, #2a8fa0, var(--cyan)); }
+.meter .peak { position: absolute; left: 0; right: 0; height: 2px; background: var(--amber); bottom: 0; }
+.meter .db { font-size: 11px; color: var(--dim); }
+
+@media (max-width: 640px) {
+  .top, .screen { padding-left: 16px; padding-right: 16px; }
+  .fan-card canvas { height: 240px; }
+  .meter .bar { height: 140px; }
+}

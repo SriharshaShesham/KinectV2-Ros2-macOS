@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Kinect v2 hotplug supervisor: starts/stops the Kinect stack as the sensor is
+     plugged in. Installed by hotplug/install.sh (which fills in the @...@ values).
+     If this repo lives under ~/Documents, ~/Desktop or ~/Downloads, the python3 below
+     needs a ONE-TIME Full Disk Access grant (System Settings > Privacy & Security);
+     until then the status file says "needs-full-disk-access".
+     Status: ~/.kinectv2/run/hotplug-status.json   Log: ~/.kinectv2/log/ -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.kinectv2.hotplug</string>
+  <key>ProgramArguments</key><array>
+    <string>@PYTHON@</string>
+    <string>@REPO@/hotplug/kinect_hotplug.py</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>
+  <key>ThrottleInterval</key><integer>10</integer>
+  <key>ProcessType</key><string>Interactive</string>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>/opt/homebrew/bin:@HOME@/.pixi/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>KINECT_REPO</key><string>@REPO@</string>
+  </dict>
+  <key>StandardOutPath</key><string>@HOME@/.kinectv2/log/hotplug.log</string>
+  <key>StandardErrorPath</key><string>@HOME@/.kinectv2/log/hotplug.log</string>
+</dict></plist>
