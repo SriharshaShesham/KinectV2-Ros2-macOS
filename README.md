@@ -23,6 +23,22 @@ Publishers and subscribers are separate processes. Start one set of publishers,
 then as many subscribers as you like. Each stream is only produced while
 something subscribes to it, so an idle topic costs nothing.
 
+## Screenshots
+
+The web console (`kinect_console`) running on a Mac mini M4.
+
+| Color | IR |
+|---|---|
+| ![Cameras screen, color view](docs/screenshots/live-cameras-color.png) | ![Cameras screen, infrared view](docs/screenshots/live-cameras-ir.png) |
+| **Depth**, with a click reading the distance | **Registered** (color on the depth grid) |
+| ![Cameras screen, depth view with a distance reading](docs/screenshots/live-cameras-depth.png) | ![Cameras screen, registered view](docs/screenshots/live-cameras-registered.png) |
+| **Aligned depth** (depth on the color grid) | **Mic array** |
+| ![Cameras screen, aligned depth view](docs/screenshots/live-cameras-aligned.png) | ![Mic array screen with direction fan and channel meters](docs/screenshots/mic-array.png) |
+
+The camera screenshots are live from the Kinect (the depth view shows a
+click reading 0.93 m). The mic array screenshot was taken with a simulated
+talker about 30° to one side.
+
 ---
 
 ## 1. What you need
@@ -290,17 +306,7 @@ rclpy.spin(node)
   changes `audio_publisher`'s parameter live), and a **FLIP L/R** button
   (see "Left and right in the mic view" below).
 
-| Color | IR |
-|---|---|
-| ![Cameras screen, color view](docs/screenshots/live-cameras-color.png) | ![Cameras screen, infrared view](docs/screenshots/live-cameras-ir.png) |
-| **Depth**, with a click reading the distance | **Registered** (color on the depth grid) |
-| ![Cameras screen, depth view with a distance reading](docs/screenshots/live-cameras-depth.png) | ![Cameras screen, registered view](docs/screenshots/live-cameras-registered.png) |
-| **Aligned depth** (depth on the color grid) | **Mic array** |
-| ![Cameras screen, aligned depth view](docs/screenshots/live-cameras-aligned.png) | ![Mic array screen with direction fan and channel meters](docs/screenshots/mic-array.png) |
-
-The camera screenshots are live from the Kinect (the depth view shows a
-click reading 0.93 m). The mic array screenshot was taken with a simulated
-talker about 30° to one side.
+Screenshots of both screens are at the [top of this README](#screenshots).
 
 #### Left and right in the mic view
 
